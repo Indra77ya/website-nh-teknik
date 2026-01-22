@@ -13,7 +13,7 @@
         <!-- Left Column: Form -->
         <div class="w-full xl:w-1/2 xl:py-20 xl:px-20 px-4 py-10 flex flex-col justify-center bg-white dark:bg-gray-800 h-full overflow-y-auto">
             <div class="max-w-[500px] w-full mx-auto">
-                <a href="{{ route('admin.dashboard') }}" class="mb-10 inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-primary">
+                <a href="{{ route('admin.dashboard') }}" class="mb-10 inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-brand-500">
                     <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12.7083 5.29166L8.125 9.99999L12.7083 14.7083C13.1042 15.1042 13.1042 15.75 12.7083 16.1458C12.3125 16.5417 11.6667 16.5417 11.2708 16.1458L6.00001 10.7292C5.60418 10.3333 5.60418 9.68749 6.00001 9.29166L11.2708 3.875C11.6667 3.47916 12.3125 3.47916 12.7083 3.875C13.1042 4.27083 13.1042 4.91666 12.7083 5.29166Z" fill=""/>
                     </svg>
@@ -51,32 +51,53 @@
                     <span class="h-px w-full bg-gray-200 dark:bg-gray-700"></span>
                 </div>
 
-                <form action="#" method="POST">
+                <form action="{{ route('login') }}" method="POST">
                     @csrf
                     <div class="mb-4">
                         <label class="mb-2.5 block font-medium text-gray-700 dark:text-gray-200">Email <span class="text-red-500">*</span></label>
-                        <input type="email" placeholder="info@gmail.com" class="w-full rounded-lg border border-gray-300 bg-transparent py-4 pl-6 pr-10 outline-none focus:border-blue-600 focus-visible:shadow-none dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500" />
+                        <div class="relative">
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="info@gmail.com" class="w-full rounded-lg border border-gray-300 bg-transparent py-4 pl-12 pr-10 outline-none focus:border-brand-500 focus-visible:shadow-none dark:border-gray-600 dark:bg-gray-700 dark:focus:border-brand-500" />
+                            <span class="absolute left-4 top-4">
+                                <svg class="fill-current text-gray-500" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19.9375 9.28125H2.0625C1.85938 9.28125 1.69792 9.3875 1.6276 9.5625L10.9999 15.2812L20.3723 9.5625C20.3019 9.3875 20.1405 9.28125 19.9375 9.28125Z" fill=""/>
+                                    <path d="M20.625 10.9656L11.3437 16.6375C11.125 16.7812 10.875 16.7812 10.6562 16.6375L1.375 10.9656V17.875C1.375 18.625 2 19.25 2.75 19.25H19.25C20 19.25 20.625 18.625 20.625 17.875V10.9656Z" fill=""/>
+                                    <path d="M19.25 2.75H2.75C2 2.75 1.375 3.375 1.375 4.125V8.125L10.6562 13.8125C10.75 13.875 10.875 13.9062 11 13.9062C11.125 13.9062 11.25 13.875 11.3437 13.8125L20.625 8.125V4.125C20.625 3.375 20 2.75 19.25 2.75Z" fill=""/>
+                                </svg>
+                            </span>
+                        </div>
+                        @error('email')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="mb-6" x-data="{ show: false }">
                         <label class="mb-2.5 block font-medium text-gray-700 dark:text-gray-200">Password <span class="text-red-500">*</span></label>
                         <div class="relative">
-                            <input :type="show ? 'text' : 'password'" placeholder="Enter your password" class="w-full rounded-lg border border-gray-300 bg-transparent py-4 pl-6 pr-10 outline-none focus:border-blue-600 focus-visible:shadow-none dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500" />
-                            <span @click="show = !show" class="absolute right-4 top-4 cursor-pointer">
-                                <svg x-show="!show" class="fill-current text-gray-500 hover:text-blue-600" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <input :type="show ? 'text' : 'password'" name="password" placeholder="Enter your password" class="w-full rounded-lg border border-gray-300 bg-transparent py-4 pl-12 pr-10 outline-none focus:border-brand-500 focus-visible:shadow-none dark:border-gray-600 dark:bg-gray-700 dark:focus:border-brand-500" />
+                            <span class="absolute left-4 top-4">
+                                <svg class="fill-current text-gray-500" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11 4.125C6.1875 4.125 2.0625 7.21875 0.6875 11C2.0625 14.7812 6.1875 17.875 11 17.875C15.8125 17.875 19.9375 14.7812 21.3125 11C19.9375 7.21875 15.8125 4.125 11 4.125ZM11 15.8125C8.34375 15.8125 6.1875 13.6562 6.1875 11C6.1875 8.34375 8.34375 6.1875 11 6.1875C13.6562 6.1875 15.8125 8.34375 15.8125 11C15.8125 13.6562 13.6562 15.8125 11 15.8125ZM11 8.25C9.48438 8.25 8.25 9.48438 8.25 11C8.25 12.5156 9.48438 13.75 11 13.75C12.5156 13.75 13.75 12.5156 13.75 11C13.75 9.48438 12.5156 8.25 11 8.25Z" fill=""/>
                                 </svg>
-                                <svg x-show="show" class="fill-current text-gray-500 hover:text-blue-600" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            </span>
+                            <span @click="show = !show" class="absolute right-4 top-4 cursor-pointer">
+                                <svg x-show="!show" class="fill-current text-gray-500 hover:text-brand-500" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 4.125C6.1875 4.125 2.0625 7.21875 0.6875 11C2.0625 14.7812 6.1875 17.875 11 17.875C15.8125 17.875 19.9375 14.7812 21.3125 11C19.9375 7.21875 15.8125 4.125 11 4.125ZM11 15.8125C8.34375 15.8125 6.1875 13.6562 6.1875 11C6.1875 8.34375 8.34375 6.1875 11 6.1875C13.6562 6.1875 15.8125 8.34375 15.8125 11C15.8125 13.6562 13.6562 15.8125 11 15.8125ZM11 8.25C9.48438 8.25 8.25 9.48438 8.25 11C8.25 12.5156 9.48438 13.75 11 13.75C12.5156 13.75 13.75 12.5156 13.75 11C13.75 9.48438 12.5156 8.25 11 8.25Z" fill=""/>
+                                    <path d="M2.5 2.5L19.5 19.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                <svg x-show="show" class="fill-current text-gray-500 hover:text-brand-500" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
                                     <path d="M11 4.125C6.1875 4.125 2.0625 7.21875 0.6875 11C2.0625 14.7812 6.1875 17.875 11 17.875C15.8125 17.875 19.9375 14.7812 21.3125 11C19.9375 7.21875 15.8125 4.125 11 4.125ZM11 15.8125C8.34375 15.8125 6.1875 13.6562 6.1875 11C6.1875 8.34375 8.34375 6.1875 11 6.1875C13.6562 6.1875 15.8125 8.34375 15.8125 11C15.8125 13.6562 13.6562 15.8125 11 15.8125ZM11 8.25C9.48438 8.25 8.25 9.48438 8.25 11C8.25 12.5156 9.48438 13.75 11 13.75C12.5156 13.75 13.75 12.5156 13.75 11C13.75 9.48438 12.5156 8.25 11 8.25Z" fill=""/>
                                     <path d="M2.5 2.5L19.5 19.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                                 </svg>
                             </span>
                         </div>
+                        @error('password')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="mb-5 flex items-center justify-between gap-4">
-                        <label class="flex cursor-pointer select-none items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                            <input type="checkbox" class="sr-only" x-data="{ checked: false }" @change="checked = !checked">
+                        <label x-data="{ checked: false }" class="flex cursor-pointer select-none items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <input type="checkbox" name="remember" class="sr-only" @change="checked = !checked">
                             <span class="flex h-5 w-5 items-center justify-center rounded border border-gray-300 bg-transparent dark:border-gray-600">
                                 <span :class="checked ? '!opacity-100' : 'opacity-0'" class="opacity-0">
                                     <svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -86,17 +107,17 @@
                             </span>
                             Keep me logged in
                         </label>
-                        <a href="#" class="text-sm text-blue-600 hover:underline dark:text-blue-500">Forgot password?</a>
+                        <a href="#" class="text-sm text-brand-500 hover:underline dark:text-brand-500">Forgot password?</a>
                     </div>
 
-                    <button type="submit" class="w-full cursor-pointer rounded-lg bg-blue-600 p-4 text-white transition hover:bg-opacity-90">
+                    <button type="submit" class="w-full cursor-pointer rounded-lg bg-brand-500 p-4 text-white transition hover:bg-opacity-90">
                         Sign in
                     </button>
 
                     <div class="mt-6 text-center">
                         <p class="text-gray-600 dark:text-gray-400">
                             Don't have an account?
-                            <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">Sign Up</a>
+                            <a href="#" class="text-brand-500 hover:underline dark:text-brand-500">Sign Up</a>
                         </p>
                     </div>
                 </form>
@@ -125,11 +146,7 @@
 
              <!-- Theme Toggle (Visual only for now) -->
              <div class="absolute bottom-10 right-10 z-20">
-                 <div class="bg-gray-800 p-2 rounded-full cursor-pointer">
-                     <svg class="fill-current text-white" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 15C12.7614 15 15 12.7614 15 10C15 7.23858 12.7614 5 10 5C7.23858 5 5 7.23858 5 10C5 12.7614 7.23858 15 10 15Z" fill=""/>
-                     </svg>
-                 </div>
+                 <!-- Theme toggle SVG logic can be here -->
              </div>
         </div>
     </div>
