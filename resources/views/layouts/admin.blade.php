@@ -4,46 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/admin.css', 'resources/js/app.js'])
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-gray-100 font-sans antialiased">
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-        <div class="hidden md:flex md:flex-shrink-0">
-            <div class="flex flex-col w-64 bg-gray-800 text-white">
-                <div class="flex items-center justify-center h-16 bg-gray-900 text-xl font-bold">
-                    Admin Panel
-                </div>
-                <div class="flex flex-col flex-1 overflow-y-auto">
-                    <nav class="flex-1 px-2 py-4 space-y-2">
-                        <a href="{{ url('/admin/dashboard') }}" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
-                            Dashboard
-                        </a>
-                        <!-- Add more links here -->
-                    </nav>
-                </div>
-            </div>
-        </div>
+<body class="dark:bg-gray-900 bg-gray-50 font-outfit text-base font-normal z-1 relative">
+    <div
+      x-data="{
+          isExpanded: true,
+          isMobileOpen: false,
+          isHovered: false,
+          isApplicationMenuOpen: false,
+          openSubmenu: null,
+          isActive(path) { return window.location.href === path || window.location.href.startsWith(path + '/'); },
+      }"
+      class="min-h-screen xl:flex"
+    >
+        @include('partials.tailadmin-sidebar')
 
-        <!-- Main Content -->
-        <div class="flex flex-col flex-1 w-0 overflow-hidden">
-            <!-- Navbar -->
-            <header class="bg-white shadow">
-                <div class="flex justify-between items-center px-6 py-4">
-                    <h2 class="text-xl font-semibold text-gray-800">
-                        @yield('header', 'Dashboard')
-                    </h2>
-                    <div>
-                        <!-- Placeholder for logout or profile -->
-                        <span class="text-gray-500">Welcome, Admin</span>
-                    </div>
-                </div>
-            </header>
+        <!-- Backdrop -->
+        <div x-show="isMobileOpen" @click="isMobileOpen = false" class="fixed inset-0 z-40 bg-gray-900 bg-opacity-50 lg:hidden" style="display: none;"></div>
 
-            <!-- Page Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+        <div class="flex-1 transition-all duration-300 ease-in-out"
+             :class="{
+                 'lg:ml-[290px]': isExpanded || isHovered,
+                 'lg:ml-[90px]': !isExpanded && !isHovered,
+                 'ml-0': isMobileOpen
+             }"
+        >
+            @include('partials.tailadmin-header')
+
+            <div class="p-4 mx-auto max-w-screen-2xl md:p-6">
                 @yield('content')
-            </main>
+            </div>
         </div>
     </div>
 </body>
