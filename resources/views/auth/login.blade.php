@@ -21,10 +21,10 @@
                 </a>
 
                 <h2 class="mb-2 text-2xl font-bold text-gray-800 dark:text-white sm:text-title-xl2">
-                    Sign In
+                    Admin Login
                 </h2>
                 <p class="mb-6 text-gray-500 dark:text-gray-400">
-                    Enter your email and password to sign in!
+                    Enter your admin credentials to sign in!
                 </p>
 
                 <div class="mb-6 flex gap-4">

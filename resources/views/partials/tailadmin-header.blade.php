@@ -40,12 +40,33 @@
             :class="isApplicationMenuOpen ? 'flex' : 'hidden'"
             class="items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none"
         >
-            <div class="flex items-center gap-2">
-                <span class="text-gray-700 dark:text-gray-400">Admin</span>
-                 <div class="w-10 h-10 rounded-full bg-gray-300 overflow-hidden">
-                    <!-- Placeholder avatar -->
-                    <img src="{{ asset('images/user/owner.jpg') }}" alt="User" class="w-full h-full object-cover"/>
-                 </div>
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex items-center gap-3 focus:outline-none">
+                    <span class="hidden text-right lg:block">
+                        <span class="block text-sm font-medium text-gray-700 dark:text-gray-200">Admin</span>
+                        <span class="block text-xs text-gray-500 dark:text-gray-400">Administrator</span>
+                    </span>
+
+                    <div class="w-10 h-10 rounded-full bg-gray-300 overflow-hidden shrink-0">
+                        <img src="{{ asset('images/user/owner.jpg') }}" alt="User" class="w-full h-full object-cover"/>
+                    </div>
+
+                    <svg :class="open ? 'rotate-180' : ''" class="w-4 h-4 text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-3 w-48 rounded-xl border border-gray-200 bg-white py-2 shadow-theme-xl dark:border-gray-800 dark:bg-gray-900 z-50" style="display: none;">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="flex w-full items-center gap-3 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-brand-500 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-brand-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            Keluar
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

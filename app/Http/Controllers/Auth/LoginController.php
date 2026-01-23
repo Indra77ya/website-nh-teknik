@@ -32,13 +32,38 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
+            if (Auth::user()->usertype === 'admin') {
+                $request->session()->regenerate();
 
-            return redirect()->intended('admin/dashboard');
+                return redirect()->intended('admin/dashboard');
+            }
+
+            Auth::logout();
+
+            return back()->withErrors([
+                'email' => 'You are not authorized to access the admin area.',
+            ])->onlyInput('email');
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 }
